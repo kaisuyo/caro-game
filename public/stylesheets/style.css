@@ -1,0 +1,66 @@
+
+table, td, tr {
+  border:1px solid rgb(209,211,206);
+  background-color: rgb(249,251,246);
+}
+
+td {
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+td:hover {
+  border: solid rgb(132, 132, 248);
+  cursor: pointer;
+  /* background-image: url("./images/o.png"); */
+}
+
+table {
+  border-collapse: 1px;
+}
+
+#menu {
+  border: 1px solid gray;
+  margin-top: 120px;
+}
+
+#form, #list-room {
+  margin: auto 0;
+}
+
+
+#list-room {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.choose-cell {
+  border: solid rgb(138, 250, 138);
+}
+
+/* #tb {
+  margin-top: 20px;
+}  */
+
+#top-content{
+  margin-top: 50px;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background-color: orange;
+  color: gray;
+  opacity: 0.6;
+  position: fixed;
+}
+
+.x {
+  background-image: url("../images/x.png");
+}
+.o {
+  background-image: url("../images/o.png");
+}
+
+#input {
+  margin-bottom: 20px;
+}

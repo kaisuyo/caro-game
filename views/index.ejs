@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" id="menu">
+        <div class="row d-flex justify-content-center">
+            <div class="form-group col-10 col-md-3" id="list-room">
+                <label for="exampleFormControlSelect2" ><h5>Select your room</h5></label>
+                <select multiple class="form-control" id="room-list">
+                    
+                </select>
+                <hr>
+            </div>
+            <div class="col-10 col-md-5" id="form">
+                <form>
+                    <div id="input">
+                        <h3>Your ID:  <code id="id-game"></code></h3>
+                        <label for="lname">Or enter your room name:</label><br>
+                        <input type="text" id="id-partner" placeholder="Your room name">
+                        <button class="btn btn-success" type="submit">Vào chơi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="boad">
+    </div>
+
+    <script src="javascripts/const.js"></script>
+    <script src="javascripts/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+
+table, td, tr {
+    border:1px solid rgb(209,211,206);
+    background-color: rgb(249,251,246);
+    margin: auto;
+}
+
+td {
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+td:hover {
+    border: solid rgb(87, 241, 87);
+    cursor: pointer;
+    /* background-image: url("./images/o.png"); */
+}
+
+table {
+    border-collapse: collapse;
+}
