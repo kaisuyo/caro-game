@@ -1,21 +1,49 @@
+#top-content {
+    opacity: 0.6;
+    color: #2f2222;
+    text-align: center;
+    width: 100px;
+    position: fixed;
+    left: 50%;
+    background-color: orange;
+    line-height: 25px;
+}
 
-table, td, tr {
-    border:1px solid rgb(209,211,206);
-    background-color: rgb(249,251,246);
+#chat-box {
+    position: fixed;
+    top: 50px;
+    opacity: 0.5;
+    background-color: rgb(217, 217, 235);
+    width: 150px;
+    text-align: center;
+}
+
+#chat-title {
+    line-height: 30px;
+    border: 1px solid purple;
+}
+
+#content {
+    width: 95%;
+    height: 150px;
+    background-color: whitesmoke;
     margin: auto;
 }
 
-td {
-    background-repeat: no-repeat;
-    background-size: 100%;
+#msg {
+    width: 90%;
 }
 
-td:hover {
-    border: solid rgb(87, 241, 87);
+#btn {
+    float: right;
+    margin-bottom: 2px;
+    margin-right: 4px;
     cursor: pointer;
-    /* background-image: url("./images/o.png"); */
 }
 
-table {
-    border-collapse: collapse;
+#new-game {
+    float: left;
+    margin-bottom: 2px;
+    margin-left: 4px;
+    cursor: pointer;
 }

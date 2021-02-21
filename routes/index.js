@@ -27,6 +27,7 @@ module.exports = function(io) {
 
     setInterval ( () => {
       clearRooms();
+      io.emit("rooms update", rooms);
     }, 60000);
 
     io.on("connection", socket => {
@@ -49,11 +50,8 @@ module.exports = function(io) {
           if (rooms[index].clients.length < 2) {
             if (rooms[index].clients.indexOf(socket.id) == -1) {
               rooms[index].clients.push(socket.id);
-              // room.turn = "o";
-              // rooms[index] = room;
               io.to(rooms[index].clients[0]).emit("play", "x");
               io.to(rooms[index].clients[1]).emit("play", "o");
-              // console.log(rooms);
             }
           }
         }
@@ -66,10 +64,7 @@ module.exports = function(io) {
         if (room) {
           let indexRoom = rooms.findIndex(e => e.id == room.id);
           let indexClient = room.clients.indexOf(socket.id);
-          // console.log(indexClient);
           data.key = (indexClient== 1 )? "o":"x";
-          console.log(rooms[indexRoom].clients);
-          // console.log(room.turn, data.key);
           if (data.key == rooms[indexRoom].turn) {
             let temp = {
               x: data.posX,
@@ -93,10 +88,8 @@ module.exports = function(io) {
             io.to(e).emit("partner leave");
           });
           rooms.splice(indexRoom, 1);
-          // console.log(rooms);
           io.emit("client leave", rooms);
         }
-        // console.log(rooms);
       });
 
       socket.on("am winner", () => {
@@ -106,7 +99,25 @@ module.exports = function(io) {
           io.to(rooms[roomID].clients[winCLientID]).emit("win");
           io.to(rooms[roomID].clients[1-winCLientID]).emit("lose");
         }
-      })
+      });
+
+      socket.on("replay request", key => {
+        let indexRoom = rooms.findIndex(e => e.clients.indexOf(socket.id) != -1);
+        let indexClient = (key == "x") ? 0:1;
+        io.to(rooms[indexRoom].clients[1-indexClient])
+          .emit("please replay");
+      });
+      socket.on("accept replay", () => {
+        let roomIndex = rooms.findIndex( e => e.clients.indexOf(socket.id) != -1);
+        io.to(rooms[roomIndex].clients[0]).to(rooms[roomIndex].clients[1]).emit("new game");
+        rooms[roomIndex].way = [];
+      });
+
+      socket.on("send message", msg => {
+        let room = rooms.find( e => e.clients.indexOf(socket.id) != -1);
+        io.to(room.clients[1])
+          .to(room.clients[0]).emit("take msg", msg);
+      });
     });
   });
   return router;

@@ -2,8 +2,28 @@ class play {
     constructor(key) {
         this.key = key;
         this.drawGame();
+        this.listenNewGame();
         this.clickPos();
         this.win = false;
+    }
+
+    askReplay() {
+        let cfm = window.confirm("The enemy asked to play again");
+        if (cfm) {
+            socket.emit("accept replay");
+        }
+    }
+
+    listenNewGame() {
+        $("#new-game").click( e => {
+            socket.emit("replay request", this.key);
+        });
+    }
+
+    newGame() {
+        $(".x").removeClass("x");
+        $(".o").removeClass("o");
+        $(".choose-cell").removeClass("choose-cell");
     }
 
     show() {
@@ -16,8 +36,9 @@ class play {
     }
 
     drawGame() {
-        let title = `<div class="option-game" id="top-content">You are ${this.key.toUpperCase()}</div>`;
-        let boad = title + '<table id="tb">';
+        
+        $("#code").html(this.key.toUpperCase());
+        let boad = '<table id="tb">';
         for (let i =0 ; i < CELL_QUALITY; i++) {
             boad += '<tr>';
             for (let j = 0; j < CELL_QUALITY; j++) {
@@ -26,8 +47,6 @@ class play {
             boad += '</tr>';
         }
         boad += '</table>';
-        let giveIn = '<div class="option-game" id="give-in">Give in</div>';
-        
 
         $('#boad').html(boad);
         $('table').css('width', CELL_QUALITY*CELL_SIZE);
@@ -252,10 +271,41 @@ class menu {
     }
 }
 
+class chat {
+    constructor() {
+        this.send();
+        this.messages = [];
+    }
+
+    show() {
+        $("#chat").css("display", "block");
+    }
+
+    hide() {
+        $("#chat").css("display", "none");
+    }
+
+    send() {
+        $("#chat-form").submit( e => {
+            e.preventDefault();
+            socket.emit("send message", $("#msg").val());
+            // console.log($("#msg").val());
+            $("#msg").val("");
+        })
+    }
+
+    readMsg(msg) {
+        if (this.messages[this.messages.length-1] != msg) {
+            let content = `<h6>[ ${msg} ]</h6>` + $("#content").html();
+            $("#content").html(content);
+            this.messages.push(msg);
+        }
+    }
+}
+
 const socket = io();
 $(document).ready(function () {
-    var m;
-    var g;
+    var m, g, c;
     socket.on("show menu", data => {
         m = new menu(data);
         m.show();
@@ -264,12 +314,15 @@ $(document).ready(function () {
         m.hide();
         g = new play(key);
         g.show();
+        c = new chat();
+        c.show();
     });
     socket.on("choose", data => {
         g.choose(data.posX, data.posY, data.key);
     });
     socket.on("partner leave", () => {
         g.hide();
+        c.hide();
         m.show();
         alert("Your enemy has surrendered");
     });
@@ -288,4 +341,16 @@ $(document).ready(function () {
     socket.on("lose", () => {
         alert("you lose");
     });
+
+    socket.on("please replay", () => {
+        g.askReplay();
+    });
+    socket.on("new game", () => {
+        g.newGame();
+    });
+
+    socket.on("take msg", msg => {
+        // console.log(msg);
+        c.readMsg(msg);
+    })
 });

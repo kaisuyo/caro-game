@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <title>Document</title>
 </head>
@@ -27,11 +27,27 @@
                     <div id="input">
                         <h3>Your ID:  <code id="id-game"></code></h3>
                         <label for="lname">Or enter your room name:</label><br>
-                        <input type="text" id="id-partner" placeholder="Your room name">
+                        <input type="text" id="id-partner" placeholder="Your room name" autocomplete="off">
                         <button class="btn btn-success" type="submit">Vào chơi</button>
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div id="chat">
+        <div id="top-content">You are <h3><code id="code"></code></h3></div>
+        <div id="chat-box">
+            <div id="chat-title">Chat</div>
+            <div id="content"></div>
+
+            <div id="input-msg">
+                <form action="" id="chat-form">
+                    <input autocomplete="off" id="msg" type="text" placeholder="Message"/>
+                    <button id="btn-send" type="submit">Send</button>
+                </form>
+            </div>
+            <button id="new-game">New Game</button>
         </div>
     </div>
 
