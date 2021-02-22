@@ -111,3 +111,40 @@ table {
   margin-left: 5%;
   cursor: pointer;
 }
+
+.box-notify {
+  width: 50%;
+  height: 100px;
+  position: fixed;
+  background-color: whitesmoke;
+  /* display: none; */
+  left: 25%;
+  top: 30px;
+  border: 1px solid rgb(245, 176, 176);
+  border-radius: 5px;
+}
+
+#request {
+  display: none;
+}
+#notify {
+  display: none;
+}
+
+#request-content {
+  position: relative;
+  top: 10px;
+  top: 10px;
+  text-align: center;
+}
+
+#request-option {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.btn-request {
+  margin-right: 10px;
+  border: blue !important;
+}

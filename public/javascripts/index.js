@@ -3,24 +3,36 @@ class play {
         this.key = key;
         this.drawGame();
         this.listenNewGame();
-        this.clickPos();
+        this.listenClickPos();
         this.win = false;
+        this.brand = "";
     }
 
     askReplay() {
-        let cfm = window.confirm("The enemy asked to play again");
-        if (cfm) {
+        $("#notify").css("display", "none");
+        $("#request").css("display", "block")
+        $("#btn-request").click( e => {
             socket.emit("accept replay");
-        }
+        });
+        $("#btn-cencal").click( e => {
+            $("#request").css("display", "none");
+        });
     }
 
     listenNewGame() {
         $("#new-game").click( e => {
             socket.emit("replay request", this.key);
         });
+        $("#notify-btn").click( e => {
+            socket.emit("replay request", this.key);
+        });
     }
 
     newGame() {
+        this.win = false;
+        this.brand = "";
+        $("#request").css("display", "none");
+        $("#notify").css("display", "none");
         $(".x").removeClass("x");
         $(".o").removeClass("o");
         $(".choose-cell").removeClass("choose-cell");
@@ -55,7 +67,6 @@ class play {
     }
 
     choose(posX, posY, key) {
-        // $(`#cell-${posX}-${posY}`).css('background-image', `url("./images/${key}.png")`);
         if ($(".choose-cell")) {
             $(".choose-cell").removeClass("choose-cell");
         }
@@ -68,7 +79,7 @@ class play {
         }
     }
 
-    clickPos() {
+    listenClickPos() {
         $('td').click(function (e) { 
             let id = e.target.id;
             if (id.indexOf('cell') != -1) {
@@ -229,11 +240,17 @@ class play {
         }
     }
 
+    notify(content) {
+        $("#notify").css("display", "block");
+        $("#notify-content").html(content);
+        // $("#notify-btn")
+    }
+
 }
 
 class menu {
-    constructor(id) {
-        this.idGame = id;
+    constructor(idClient) {
+        this.idGame = idClient;
         this.submit();
     }
     show() {
@@ -273,7 +290,7 @@ class menu {
 
 class chat {
     constructor() {
-        this.send();
+        this.listenSend();
         this.messages = [];
     }
 
@@ -285,7 +302,7 @@ class chat {
         $("#chat").css("display", "none");
     }
 
-    send() {
+    listenSend() {
         $("#chat-form").submit( e => {
             e.preventDefault();
             socket.emit("send message", $("#msg").val());
@@ -336,10 +353,10 @@ $(document).ready(function () {
         m.updateRooms(rooms);
     });
     socket.on("win", () => {
-        alert("you win");
+        g.notify("you win");
     });
     socket.on("lose", () => {
-        alert("you lose");
+        g.notify("you lose");
     });
 
     socket.on("please replay", () => {
