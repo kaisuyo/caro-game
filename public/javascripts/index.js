@@ -106,7 +106,7 @@ class play {
                 id = id.replace('cell-', '');
                 let pos = id.split('-');
                 let [posX, posY] = [Number(pos[0]), Number(pos[1])];
-                if (!$(temp).hasClass("x") && !$(id).hasClass("o")) {
+                if (!$("#"+temp).hasClass("x") && !$("#"+temp).hasClass("o")) {
                     let data = {
                         posX,
                         posY,
