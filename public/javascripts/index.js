@@ -88,11 +88,12 @@ class play {
     listenClickPos() {
         $('td').click(function (e) { 
             let id = e.target.id;
+            let temp = id;
             if (id.indexOf('cell') != -1) {
                 id = id.replace('cell-', '');
                 let pos = id.split('-');
                 let [posX, posY] = [Number(pos[0]), Number(pos[1])];
-                if (!$(id).hasClass("x") && !$(id).hasClass("o")) {
+                if (!$(temp).hasClass("x") && !$(id).hasClass("o")) {
                     this.choose({posX, posY});
                     socket.emit("clickBoad", {posX, posY});
                 }
