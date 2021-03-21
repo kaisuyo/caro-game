@@ -7,11 +7,16 @@ class play {
         this.win = false;
         this.brand = "";
         if (this.key == 'o') {
-            this.turn = true;
+            this.youTurn();
         } else {
             this.turn = false;
         }
         this.boardGame = [];
+    }
+
+    youTurn() {
+        this.turn = true;
+        $("#turn").css("display", "block");
     }
 
     askReplay() {
@@ -42,6 +47,7 @@ class play {
         $(".x").removeClass("x");
         $(".o").removeClass("o");
         $(".choose-cell").removeClass("choose-cell");
+        $("#turn").css("display", "none");
     }
 
     show() {
@@ -79,23 +85,37 @@ class play {
         $(`#cell-${data.posX}-${data.posY}`).addClass(data.key);
         $(`#cell-${data.posX}-${data.posY}`).addClass("choose-cell");
 
-        this.isWinner(posX, posY);
+        this.isWinner(data.posX, data.posY);
         if (this.win) {
             socket.emit("am winner");
         }
     }
 
     listenClickPos() {
+        let self = this;
+        
         $('td').click(function (e) { 
+            if (!self.turn) {
+                return;
+            }
+
             let id = e.target.id;
             let temp = id;
+
             if (id.indexOf('cell') != -1) {
                 id = id.replace('cell-', '');
                 let pos = id.split('-');
                 let [posX, posY] = [Number(pos[0]), Number(pos[1])];
                 if (!$(temp).hasClass("x") && !$(id).hasClass("o")) {
-                    this.choose({posX, posY});
+                    let data = {
+                        posX,
+                        posY,
+                        key: self.key
+                    }
+                    self.choose(data);
                     socket.emit("clickBoad", {posX, posY});
+                    self.turn = false;
+                    $("#turn").css("display", "none");
                 }
             }
         });
@@ -346,6 +366,7 @@ $(document).ready(function () {
     });
     socket.on("choose", data => {
         g.choose(data);
+        g.youTurn();
     });
     socket.on("partner leave", () => {
         g.hide();

@@ -54,6 +54,18 @@ table {
   background-image: url("../images/o.png");
 }
 
+#turn {
+  display: none;
+  position: fixed;
+  top: 50px;
+  right: 5px;
+  opacity: 0.5;
+  background-color: rgb(218, 201, 106);
+  width: 100px;
+  text-align: center;
+  font-size: 18px;
+}
+
 #input {
   margin-bottom: 20px;
 }
