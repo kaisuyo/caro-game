@@ -6,6 +6,12 @@ class play {
         this.listenClickPos();
         this.win = false;
         this.brand = "";
+        if (this.key == 'o') {
+            this.turn = true;
+        } else {
+            this.turn = false;
+        }
+        this.boardGame = [];
     }
 
     askReplay() {
@@ -66,12 +72,12 @@ class play {
         $('td').css('width', CELL_SIZE);
     }
 
-    choose(posX, posY, key) {
+    choose(data) {
         if ($(".choose-cell")) {
             $(".choose-cell").removeClass("choose-cell");
         }
-        $(`#cell-${posX}-${posY}`).addClass(key);
-        $(`#cell-${posX}-${posY}`).addClass("choose-cell");
+        $(`#cell-${data.posX}-${data.posY}`).addClass(data.key);
+        $(`#cell-${data.posX}-${data.posY}`).addClass("choose-cell");
 
         this.isWinner(posX, posY);
         if (this.win) {
@@ -86,7 +92,10 @@ class play {
                 id = id.replace('cell-', '');
                 let pos = id.split('-');
                 let [posX, posY] = [Number(pos[0]), Number(pos[1])];
-                socket.emit("clickBoad", {posX, posY});
+                if (!$(id).hasClass("x") && !$(id).hasClass("o")) {
+                    this.choose({posX, posY});
+                    socket.emit("clickBoad", {posX, posY});
+                }
             }
         });
     }
@@ -335,7 +344,7 @@ $(document).ready(function () {
         c.show();
     });
     socket.on("choose", data => {
-        g.choose(data.posX, data.posY, data.key);
+        g.choose(data);
     });
     socket.on("partner leave", () => {
         g.hide();
@@ -367,7 +376,6 @@ $(document).ready(function () {
     });
 
     socket.on("take msg", msg => {
-        // console.log(msg);
         c.readMsg(msg);
     })
 });

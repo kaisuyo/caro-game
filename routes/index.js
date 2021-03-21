@@ -65,14 +65,15 @@ module.exports = function(io) {
           let indexRoom = rooms.findIndex(e => e.id == room.id);
           let indexClient = room.clients.indexOf(socket.id);
           data.key = (indexClient== 1 )? "o":"x";
+          data.turn = room.turn;
           if (data.key == rooms[indexRoom].turn) {
             let temp = {
               x: data.posX,
               y: data.posY
             };
-  
+
             if (!room.way.find( e => e.x == temp.x && e.y == temp.y)) {
-              io.to(room.clients[0]).to(room.clients[1]).emit("choose", data);
+              io.to(room.clients[1-indexClient]).emit("choose", data);
               rooms[indexRoom].turn = (rooms[indexRoom].turn == "x") ? "o":"x"; 
               rooms[indexRoom].way.push(temp);
             }
